@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class FragmentGenerator : MonoBehaviour
 {
-    // 단일 게임오브젝트 대신 배열로 선언
     public GameObject[] fragmentPrefabs; 
     float span = 1.0f;
     float delta = 0;

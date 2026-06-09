@@ -1,16 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections; // 코루틴 사용을 위해 필요
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class GameDirector : MonoBehaviour
 {
     public Image hpGauge;
-    public Image blindPanel; // 화면 전체를 가릴 반투명 검은색 UI 이미지
-    public PlayerController player; // 스턴을 걸기 위해 플레이어 스크립트 연결
+    public Image blindPanel;
+    public PlayerController player;
     public GameObject gameOverText;
+
+    private bool isGameOver = false;
+
+    void Start()
+    {
+        Application.targetFrameRate = 60;
+    }
+
+    void Update()
+    {
+        if (isGameOver && Input.GetKeyDown(KeyCode.R))
+        {
+            RestartGame();
+        }
+    }
 
     public void HitFragment(int type)
     {
+        if (isGameOver) return;
+
         if (type == 0) // 빨간색: 실명
         {
             StartCoroutine(BlindRoutine());
@@ -19,13 +37,13 @@ public class GameDirector : MonoBehaviour
         {
             StartCoroutine(StunRoutine());
         }
-        else if (type == 2) // 보라색: 언데드 (대체)
+        else if (type == 2) // 보라색: 데미지
         {
-            // 현재 게임엔 힐이 없으므로, 맞으면 일반 데미지의 2~3배를 깎는 식으로 끔살 구현
             hpGauge.fillAmount -= 0.3f; 
         }
         else 
         {
+            // 오류 방지
             hpGauge.fillAmount -= 0.1f;
         }
 
@@ -37,23 +55,30 @@ public class GameDirector : MonoBehaviour
 
     void GameOver()
     {
-        gameOverText.SetActive(true); // 숨겨뒀던 게임오버 글자 띄우기
-        Time.timeScale = 0f; // 게임 시간 정지 (파편이 더 안 떨어지고 플레이어도 멈춤)
+        isGameOver = true;
+        gameOverText.SetActive(true);
 
+        Time.timeScale = 0f;
         player.isStunned = true;
+    }
+
+    void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     IEnumerator BlindRoutine()
     {
-        blindPanel.gameObject.SetActive(true); // 검은 화면 활성화
-        yield return new WaitForSeconds(1.5f); // 1.5초 대기
-        blindPanel.gameObject.SetActive(false); // 검은 화면 비활성화
+        blindPanel.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        blindPanel.gameObject.SetActive(false);
     }
 
     IEnumerator StunRoutine()
     {
-        player.isStunned = true; // 플레이어 스턴 걸기
-        yield return new WaitForSeconds(1.0f); // 1초 대기
-        player.isStunned = false; // 플레이어 스턴 해제
+        player.isStunned = true;
+        yield return new WaitForSeconds(1.0f);
+        player.isStunned = false;
     }
 }

@@ -104,5 +104,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dd176fc23927484486c2da9212eefcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FragmentController
-  dropSpeed: 0.1
+  dropSpeed: 6
   fragmentType: 1

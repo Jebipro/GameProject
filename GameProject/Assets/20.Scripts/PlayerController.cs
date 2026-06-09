@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0.1f;
-    public bool isStunned = false; // 스턴 상태 확인용
+    public bool isStunned = false;
 
     void Start()
     {
@@ -17,11 +17,11 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Translate(-speed, 0, 0);
+            transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Translate(speed, 0, 0);
+            transform.Translate(speed * Time.deltaTime, 0, 0);
         }
     }
 

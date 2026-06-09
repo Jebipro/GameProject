@@ -8,7 +8,7 @@ public class FragmentController : MonoBehaviour
     float minDistance = 1.1f;
     public float dropSpeed = 0.1f;
     
-    // 0: 빨간색(실명), 1: 파란색(스턴), 2: 보라색(언데드)
+    // 0: 빨간색(실명), 1: 파란색(스턴), 2: 보라색(데미지)
     public int fragmentType; 
 
     private void Start()
@@ -19,7 +19,7 @@ public class FragmentController : MonoBehaviour
 
     void Update()
     {
-        transform.Translate(0, -dropSpeed, 0);
+        transform.Translate(0, -dropSpeed * Time.deltaTime, 0);
 
         if (transform.position.y < -6)
         {
@@ -32,7 +32,6 @@ public class FragmentController : MonoBehaviour
         
         if(distance < minDistance)
         {
-            // GameDirector에게 어떤 파편에 맞았는지 종류를 넘겨줌
             director.GetComponent<GameDirector>().HitFragment(fragmentType);
             Destroy(gameObject);
         }
