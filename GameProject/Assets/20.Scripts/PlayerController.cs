@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float speed = 0.1f;
+    public float speed = 8f;
     public bool isStunned = false;
 
     void Start()

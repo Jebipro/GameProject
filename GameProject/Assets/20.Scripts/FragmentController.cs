@@ -6,7 +6,7 @@ public class FragmentController : MonoBehaviour
     GameObject director;
 
     float minDistance = 1.1f;
-    public float dropSpeed = 0.1f;
+    public float dropSpeed = 6f;
     
     // 0: 빨간색(실명), 1: 파란색(스턴), 2: 보라색(데미지)
     public int fragmentType; 
